@@ -1,3 +1,3 @@
 #!/bin/bash
 #Es necesario copiar el directorio python-eureka-library al directorio actual
-docker build -t docker-registry.cloud.everis.com:5000/fraud-detector/output-lab:latest .
+docker build -t 172.30.179.28:5000/fraud-detector/ms-processing:latest .
