@@ -33,8 +33,9 @@ class EurekaPropertiesFactory(Singleton):
         # return host, port
         return DEV_EUREKA_HOST_ENV, int(DEV_EUREKA_PORT_ENV)
 
+
     def get_app_instance_dto(self):
-        host, port = self.__read_output_host_and_port_from_env()
+        host, port = self.__read_processing_host_and_port_from_env()
         return AppInstanceDTO(
             vip_address="none",
             secure_vip_address="none",
@@ -49,12 +50,13 @@ class EurekaPropertiesFactory(Singleton):
             app_name=EUREKA_APP_NAME
         )
 
-    def __read_output_host_and_port_from_env(self):
-        host = os.environ.get(OUTPUT_HOST_ENV)
-        port = int(os.environ.get(OUTPUT_PORT_ENV))
+    def __read_processing_host_and_port_from_env(self):
+        host = os.environ.get(PROCESSING_HOST_ENV)
+        port = int(os.environ.get(PROCESSING_PORT_ENV))
         if host is None or port is None:
             raise EnviromentVariablesNotSet()
         return host, port
+
 
     def get_development_eureka_server_dto(self):
         host, port = DEV_EUREKA_HOST_ENV, int(DEV_EUREKA_PORT_ENV)
@@ -67,7 +69,7 @@ class EurekaPropertiesFactory(Singleton):
         )
 
     def get_development_app_instance_dto(self):
-        host, port = DEV_OUTPUT_HOST_ENV, int(DEV_OUTPUT_PORT_ENV)
+        host, port = DEV_PROCESSING_HOST_ENV, int(DEV_PROCESSING_PORT_ENV)
         return AppInstanceDTO(
             vip_address="none",
             secure_vip_address="none",

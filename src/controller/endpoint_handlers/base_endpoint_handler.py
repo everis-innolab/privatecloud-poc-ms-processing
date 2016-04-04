@@ -21,7 +21,7 @@ class BaseEndpointHandler(object):
             return self.return_response(formatted_logs, 200)
 
         except Exception, e:
-            self._logger.exception("Error handling logs\n")
+            self._logger.exception("Error gestionando logs\n")
             return self.return_response(e.message, 400)
 
     def return_response(self, return_data, status):

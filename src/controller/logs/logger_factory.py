@@ -11,7 +11,6 @@ class LoggerFactory():
 
     @staticmethod
     def get_logger(file_path, logging_level):
-
         logger = logging.getLogger(__name__)
         logger.setLevel(logging_level)
 
@@ -43,5 +42,3 @@ class LoggerFactory():
         f = open(log_file_path, 'w')
         f.write(u'LOG FILE START\n')
         f.close()
-
-

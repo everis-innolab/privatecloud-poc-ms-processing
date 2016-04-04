@@ -3,9 +3,13 @@ import copy
 import json
 import logging
 import unittest
+
 from mock import patch, Mock
-from src.controller.endpoint_handlers.transaction_endpoint_handler import \
-    TransactionEndpointHandler
+
+from src.controller.endpoint_handlers.base_endpoint_handler import \
+    BaseEndpointHandler
+from src.controller.endpoint_handlers.processing_endpoint_handler import \
+    ProcessingEndpointHandler
 from src.controller.exceptions import MalformedTransactionException
 from src.controller.logs.logger_factory import LoggerFactory
 from src.model.transaction_dao import TransactionDAO
@@ -22,32 +26,31 @@ class TestProcessingEndpointHandler(unittest.TestCase):
         )
         #We disable the stream logger so exceptions do not print
         logger.handlers = logger.handlers[:-1]
-        self.processing = TransactionEndpointHandler(None, logger)
+        self.handler = BaseEndpointHandler(None, logger)
+        self.processing = ProcessingEndpointHandler(None,logger)
         self.transaction_document = {
             "_id" : 0,
-            "client_country" : "SK",
+            "client_country": "SK",
             "client_id" : 35,
-            "commerce_tpv" : "805348991287",
-            "client_credit_card" : "4756310296329932",
-            "transaction_amount" : 384.1,
+            "commerce_tpv": "805348991287",
+            "client_credit_card": "4756310296329932",
+            "transaction_amount": 384.1,
             "commerce_id" : 100,
-            "client_country_name" : "Slovakia",
-            "commerce_country" : "ES",
-            "commerce_country_name" : "Spain",
-            "commerce_account_iban" : "ES7231011409805348991287",
-            "transaction_datetime" : "2015-06-15T18:01:32.000+0000"
+            "client_country_name": "Slovakia",
+            "commerce_country": "ES",
+            "commerce_country_name": "Spain",
+            "commerce_account_iban": "ES7231011409805348991287",
+            "transaction_datetime": "2015-06-15T18:01:32.000+0000"
         }
-
-        self.transaction_dto = \
-            TransactionDAO().build_from_document(self.transaction_document)
+        self.transaction_dto = TransactionDAO().build_from_document(self.transaction_document)
 
     def tearDown(self ):
         pass
 
     def test_malformed_transaction_return_exception_message(self):
         with patch('bottle.request', self.get_read_mock()):
-            expected = MalformedTransactionException().message
-            result = self.processing.handle_transaction_post()
+            expected= MalformedTransactionException().message
+            result= self.processing.transactions_post()
             self.assertEquals(result, expected)
 
     def get_read_mock(self):
@@ -58,4 +61,4 @@ class TestProcessingEndpointHandler(unittest.TestCase):
         return m
 
 if __name__ == '__main__':
-    unittest.main ()
+    unittest.main()

@@ -2,7 +2,8 @@
 import random
 from threading import Thread, Event
 import time
-from src.constants import EUREKA_HEARTBEAT_INTERVAL
+from src.constants import EUREKA_HEARTBEAT_INTERVAL, OUTPUT_HANDLER_APP_NAME, \
+    OUTPUT_HANDLER_ENDPOINT
 
 
 class EurekaAgent():
@@ -12,6 +13,23 @@ class EurekaAgent():
         self.heart_beat_thread = None
         self.heart_beat_stop_flag = None
         self.__logger = logger
+
+    def get_output_handler_url(self):
+
+        instance_dto_list = \
+            self.ec_client.get_all_instaces_of_app(OUTPUT_HANDLER_APP_NAME)
+
+        if instance_dto_list is None or len(instance_dto_list)<1:
+            return None
+
+        instance_dto = random.choice(instance_dto_list)
+        return self.__get_url_from_app_instance_dto(instance_dto)
+
+    def __get_url_from_app_instance_dto(self, instance_dto):
+        return  "http://%s:%s%s"%(
+            instance_dto.host_name, str(instance_dto.port),
+            OUTPUT_HANDLER_ENDPOINT
+        )
 
     def register_in_eureka(self):
         self.ec_client.register()
@@ -34,6 +52,7 @@ class EurekaAgent():
 
     def __stop_heartbeat_thread(self):
         self.heart_beat_stop_flag.set()
+
 
 class MyThread(Thread):
 

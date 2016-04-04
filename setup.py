@@ -3,7 +3,7 @@ from setuptools import setup, find_packages
 
 
 setup(
-    name = 'ms-outputhandler',
+    name = 'ms-processing',
     version = "0.1.0",
     description = '',
     author = u'Pablo Calvo',
@@ -15,10 +15,6 @@ setup(
         'bottle==0.12.09',
         'eurekalab==0.1.0',
         'nose==1.3.7',
-        'mock==1.3.0',
-        'gevent==1.0.2',
-        'gevent-websocket==0.9.5',
-        'peewee==2.8.0',
-        'PyMySQL==0.7.2'
+        'mock==1.3.0'
     ]
 )
