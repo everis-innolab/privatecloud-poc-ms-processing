@@ -15,14 +15,17 @@ class EurekaAgent():
         self.__logger = logger
 
     def get_output_handler_url(self):
-
+        self.__logger.info("Getting Output Handler URL")
+        self.__logger.info("Getting APP Instance dto List")
         instance_dto_list = \
             self.ec_client.get_all_instaces_of_app(OUTPUT_HANDLER_APP_NAME)
 
+        self.__logger.info("Chosing Instance dto List")
         if instance_dto_list is None or len(instance_dto_list)<1:
             return None
 
         instance_dto = random.choice(instance_dto_list)
+        self.__logger.info("Building URL from APP Instance dto List")
         return self.__get_url_from_app_instance_dto(instance_dto)
 
     def __get_url_from_app_instance_dto(self, instance_dto):
