@@ -18,10 +18,13 @@ class ProcessingEndpointHandler(BaseEndpointHandler):
             TransactionClassifier(RANDOM_SLEEP_BOUNDS_MS, POSITIVE_REMAINDERS)
 
     def transactions_post(self):
+        self._logger.info("Post Handler just started")
         try:
             postdata = bottle.request.body.read()
+            self._logger.info("Parsing DTO")
             transaction_dto = self.__parse_transaction_data_to_dto(postdata)
             #if self.__clf.is_transaction_fraudulent(transaction_dto):
+            self._logger.info("Predicting Transaction DTO")
             self.handle_fraudulent_transaction(transaction_dto)
             self._logger.info("Handled Transaction Request")
             return self.return_response("OK", 201)

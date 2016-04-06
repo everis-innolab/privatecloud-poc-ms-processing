@@ -71,8 +71,8 @@ class TransactionClassifier():
         sleep_time = \
             random.randint(self.__min_sleep, self.__max_sleep)/ float(1000)
         sleep_time -= millis_already_passed
-        if sleep_time > 0 :
-            sleep(sleep_time)
+        # if sleep_time > 0 :
+        #     sleep(sleep_time)
 
     @staticmethod
     def millis_interval(start, end):
