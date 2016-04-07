@@ -44,6 +44,7 @@ class EurekaAgent():
             # funcionalidad completa
             self.__output_handler_url_cache = "http://%s:80/transactions"%\
                 os.environ.get("MS_OUTPUT_SERVICE_SERVICE_HOST")
+            self.__last_cache_refresh_time = datetime.datetime.now()
 
         return self.__output_handler_url_cache
 
