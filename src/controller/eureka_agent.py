@@ -42,7 +42,7 @@ class EurekaAgent():
 
             # TODO cuando se resuelva el tema del DNS de Kubernetes volver a la
             # funcionalidad completa
-            self.__last_cache_refresh_time = "http://%s:80/transactions"%\
+            self.__output_handler_url_cache = "http://%s:80/transactions"%\
                 os.environ.get("MS_OUTPUT_SERVICE_SERVICE_HOST")
 
         return self.__output_handler_url_cache
