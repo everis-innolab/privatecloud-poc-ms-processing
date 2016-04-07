@@ -2,6 +2,9 @@
 import random
 from threading import Thread, Event
 import time
+
+import datetime
+
 from src.constants import EUREKA_HEARTBEAT_INTERVAL, OUTPUT_HANDLER_APP_NAME, \
     OUTPUT_HANDLER_ENDPOINT
 
@@ -13,20 +16,34 @@ class EurekaAgent():
         self.heart_beat_thread = None
         self.heart_beat_stop_flag = None
         self.__logger = logger
+        self.__output_handler_url_cache = None
+        self.__last_cache_refresh_time = None
 
     def get_output_handler_url(self):
-        self.__logger.info("Getting Output Handler URL")
-        self.__logger.info("Getting APP Instance dto List")
-        instance_dto_list = \
-            self.ec_client.get_all_instaces_of_app(OUTPUT_HANDLER_APP_NAME)
 
-        self.__logger.info("Chosing Instance dto List")
-        if instance_dto_list is None or len(instance_dto_list)<1:
-            return None
+        if self.__output_handler_url_cache is None or \
+                self.__is_cache_refreshing_necessary():
 
-        instance_dto = random.choice(instance_dto_list)
-        self.__logger.info("Building URL from APP Instance dto List")
-        return self.__get_url_from_app_instance_dto(instance_dto)
+            self.__logger.info("Getting Output Handler URL")
+            self.__logger.info("Getting APP Instance dto List")
+            instance_dto_list = \
+                self.ec_client.get_all_instaces_of_app(OUTPUT_HANDLER_APP_NAME)
+
+            self.__logger.info("Chosing Instance dto List")
+            if instance_dto_list is None or len(instance_dto_list)<1:
+                self.__output_handler_url_cache = None
+
+            instance_dto = random.choice(instance_dto_list)
+            self.__logger.info("Building URL from APP Instance dto List")
+            self.__output_handler_url_cache = \
+                self.__get_url_from_app_instance_dto(instance_dto)
+
+        return self.__output_handler_url_cache
+
+
+    def __is_cache_refreshing_necessary(self):
+        return datetime.datetime.now()-self.__last_cache_refresh_time > \
+               datetime.timedelta(seconds=300)
 
     def __get_url_from_app_instance_dto(self, instance_dto):
         return  "http://%s:%s%s"%(
