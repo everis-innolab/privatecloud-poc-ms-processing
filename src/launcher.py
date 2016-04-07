@@ -17,6 +17,9 @@ class Main():
     def __init__(self, logger, eureka_server_dto, my_app_instace_dto):
         eureka_client = EurekaClient(eureka_server_dto, my_app_instace_dto)
         self.__eureka_agent = EurekaAgent(eureka_client, logger)
+
+        #Pre cargamos la cache de url al inicio
+        self.__eureka_agent.get_output_handler_url()
         self.__my_app_instance_dto = my_app_instace_dto
 
     def launch_server(self):
@@ -51,6 +54,7 @@ if __name__ == "__main__":
 
     main_launcher = Main(logger, eureka_dto, my_app_dto)
     main_launcher.launch_server()
+
 
 
 
