@@ -51,7 +51,7 @@ class ProcessingEndpointHandler(BaseEndpointHandler):
                 data = json.dumps(TransactionDAO().to_dict(transaction_dto)),
                 headers={'Content-Type': 'application/json'}
             )
-            self._logger.info("output_handler_url :%s"%self._eureka_agent.get_output_handler_url())
+            self._logger.info("output_handler_url :%s"%url)
             response = opener.open(req)
 
         except Exception, e:
