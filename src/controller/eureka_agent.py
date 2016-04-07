@@ -38,6 +38,8 @@ class EurekaAgent():
             self.__output_handler_url_cache = \
                 self.__get_url_from_app_instance_dto(instance_dto)
 
+            self.__last_cache_refresh_time = datetime.datetime.now()
+
         return self.__output_handler_url_cache
 
 
