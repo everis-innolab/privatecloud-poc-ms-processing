@@ -23,9 +23,10 @@ class ProcessingEndpointHandler(BaseEndpointHandler):
             postdata = bottle.request.body.read()
             self._logger.info("Parsing DTO")
             transaction_dto = self.__parse_transaction_data_to_dto(postdata)
-            #if self.__clf.is_transaction_fraudulent(transaction_dto):
-            self._logger.info("Predicting Transaction DTO")
-            self.handle_fraudulent_transaction(transaction_dto)
+            if self.__clf.is_transaction_fraudulent(transaction_dto):
+                self._logger.info("Predicting Transaction DTO")
+                self.handle_fraudulent_transaction(transaction_dto)
+                
             self._logger.info("Handled Transaction Request")
             return self.return_response("OK", 201)
 

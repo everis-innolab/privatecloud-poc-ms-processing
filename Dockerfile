@@ -5,8 +5,7 @@ WORKDIR "/tmp" &&\
 RUN echo 'proxy=http://10.121.8.100:8080/' >> /etc/yum.conf 
 ENV https_proxy="https://10.121.8.100:8080/" 
 ENV http_proxy="http://10.121.8.100:8080/"
-
-
+ENV test_deploy="test_deploy"
 
 # YUM Updates and libraries
 RUN yum update -y &&\
