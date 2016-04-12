@@ -3,7 +3,7 @@ import random
 from datetime import datetime
 from time import sleep
 
-from src.constants import POSITIVE_REMAINDERS, RANDOM_SLEEP_BOUNDS_MS, DIVIDER
+from src.constants import *
 from src.controller.exceptions import InsufficientDataInTransactionException, \
     MalformedTransactionException
 
@@ -14,7 +14,7 @@ class TransactionClassifier():
         self.__min_sleep, self.__max_sleep = random_sleep_bounds_tuple
         self.__fraudulent_remainders = fraudulent_remainders
 
-    def is_transaction_fraudulent(self, transaction_dto):
+    def get_fraud_code(self, transaction_dto):
         """
         Por agilizar el proceso se va a utilizar un cáculo inmediato y simple,
         mas un delay aleatorio para simular el rendimiento en tiempo de un
@@ -33,7 +33,6 @@ class TransactionClassifier():
 
         Tras esto se aplica un delay de X
 
-
         :param transaction_dto:
         :return:
         """
@@ -43,7 +42,10 @@ class TransactionClassifier():
             transaction_dto
         )
         self.__sleep_random_amount_if_necessary(start_time)
-        return is_positive
+        if is_positive:
+            return random.choice(FRAUDULENT_CODES)
+        else:
+            return LEGIT_CODE
 
     def __check_enough_data_to_classify_transaction(self, transaction_dto):
         complete= (
