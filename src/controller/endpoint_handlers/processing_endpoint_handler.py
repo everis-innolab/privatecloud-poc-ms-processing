@@ -61,7 +61,7 @@ class ProcessingEndpointHandler(BaseEndpointHandler):
         try:
             opener = self.__get_url_opener_with_empty_proxy()
             req=self.__build_post_request(transaction_body_data)
-            self._logger.info("Sending to URL: %s"%req.url)
+            self._logger.info("Sending to URL: %s"%req.get_full_url())
             response = opener.open(req)
         except Exception, e:
             msg = "Error sending Transaction"
