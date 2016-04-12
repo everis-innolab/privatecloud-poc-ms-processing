@@ -5,7 +5,8 @@ class TransactionDTO(object):
                  transaction_amount=None, commerce_id=None,
                  client_country_name=None, commerce_country=None,
                  commerce_country_name=None, commerce_account_iban=None,
-                 transaction_datetime=None):
+                 transaction_datetime=None, client_name=None,
+                 client_last_name=None):
         self.___id = _id
         self.__client_country = client_country
         self.__client_id = client_id
@@ -18,6 +19,9 @@ class TransactionDTO(object):
         self.__commerce_country_name = commerce_country_name
         self.__commerce_account_iban = commerce_account_iban
         self.__transaction_datetime = transaction_datetime
+        self.__client_name = client_name
+        self.__client_last_name = client_last_name
+
 
 ##DC:==========================================================================
 ##DC: GETTERS
@@ -71,6 +75,15 @@ class TransactionDTO(object):
     def transaction_datetime(self):
         return self.__transaction_datetime
 
+    @property
+    def client_name(self):
+        return self.__client_name
+
+    @property
+    def client_last_name(self):
+        return self.__client_last_name
+
+
 ##DC:==========================================================================
 ##DC: SETTERS
 ##DC:==========================================================================
@@ -123,6 +136,14 @@ class TransactionDTO(object):
     def transaction_datetime(self, transaction_datetime):
         self.__transaction_datetime = transaction_datetime
 
+    @client_name.setter
+    def client_name(self, client_name):
+        self.__client_name = client_name
+
+    @client_last_name.setter
+    def client_last_name(self, client_last_name):
+        self.__client_last_name = client_last_name
+
     def __eq__(self, other):
         return (
             self._id == other._id and
@@ -136,7 +157,9 @@ class TransactionDTO(object):
             self.commerce_country == other.commerce_country and
             self.commerce_country_name == other.commerce_country_name and
             self.commerce_account_iban == other.commerce_account_iban and
-            self.transaction_datetime == other.transaction_datetime
+            self.transaction_datetime == other.transaction_datetime and
+            self.client_name == other.client_name and
+            self.client_last_name == other.client_last_name
         )
 
     def __str__(self):
@@ -150,7 +173,9 @@ class TransactionDTO(object):
             'commerce_id: %s\n'%str(self.__commerce_id)+
             'client_country_name: %s\n'%str(self.__client_country_name)+
             'commerce_country: %s\n'%str(self.__commerce_country)+
-            'commerce_country_name: %s\n'%str(self.__commerce_cuontry_name)+
+            'commerce_country_name: %s\n'%str(self.__commerce_country_name)+
             'commerce_account_iban: %s\n'%str(self.__commerce_account_iban)+
-            'transaction_datetime: %s\n'%str(self.__transaction_datetime)
+            'transaction_datetime: %s\n'%str(self.__transaction_datetime) +
+            'client_name: %s\n'%str(self.__client_name)+
+            'client_last_name: %s\n'%str(self.__client_last_name)
         )

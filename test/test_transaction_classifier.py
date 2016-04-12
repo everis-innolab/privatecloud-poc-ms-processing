@@ -30,7 +30,9 @@ class TestTransactionClassifier(unittest.TestCase):
                 "commerce_country" : "ES",
                 "commerce_country_name" : "Spain",
                 "commerce_account_iban" : "ES7231011409805348991287",
-                "transaction_datetime" : "2015-06-15T18:01:32.000+0000"
+                "transaction_datetime" : "2015-06-15T18:01:32.000+0000",
+                "client_name":"foo",
+                "client_last_name":"bar"
             }
         )
 
@@ -40,22 +42,18 @@ class TestTransactionClassifier(unittest.TestCase):
     def test_creation(self):
         self.assertIsNotNone(self.clf)
 
-    def test_dumb_prediction(self):
-        result = self.clf.is_transaction_fraudulent(self.transaction_dto)
-        self.assertIsNotNone(result)
-
     def test_random_sleep_is_within_interval(self):
         sleep_intervals = []
 
         for i in range(10):
             start_time = datetime.datetime.now()
-            self.clf.is_transaction_fraudulent(self.transaction_dto)
+            self.clf.get_fraud_code(self.transaction_dto)
             end_time = datetime.datetime.now()
 
             lapse = self.clf.millis_interval(start_time, end_time)
             sleep_intervals.append(lapse)
-        # To perform an assert on the minimun response time is really a load
-        # tests, not a unit test, so we skip it.
+        # Performing an assert on the minimun response time is really a load
+        # test, not a unit test, so we skip it.
         # self.assertGreaterEqual(min(sleep_intervals), self.min_sleep)
         self.assertLessEqual(max(sleep_intervals), self.max_sleep)
 
@@ -63,7 +61,7 @@ class TestTransactionClassifier(unittest.TestCase):
         self.transaction_dto.commerce_account_iban = None
         self.assertRaises(
             InsufficientDataInTransactionException,
-            self.clf.is_transaction_fraudulent,
+            self.clf.get_fraud_code,
             self.transaction_dto
         )
 
@@ -71,7 +69,7 @@ class TestTransactionClassifier(unittest.TestCase):
         self.transaction_dto.client_credit_card = None
         self.assertRaises(
             InsufficientDataInTransactionException,
-            self.clf.is_transaction_fraudulent,
+            self.clf.get_fraud_code,
             self.transaction_dto
         )
 
@@ -79,7 +77,7 @@ class TestTransactionClassifier(unittest.TestCase):
         self.transaction_dto.transaction_amount = None
         self.assertRaises(
             InsufficientDataInTransactionException,
-            self.clf.is_transaction_fraudulent,
+            self.clf.get_fraud_code,
             self.transaction_dto
         )
 
@@ -96,15 +94,15 @@ class TestTransactionClassifier(unittest.TestCase):
         self.transaction_dto.commerce_account_iban = "10001"
         self.transaction_dto.client_credit_card = "99991"
         self.transaction_dto.transaction_amount = "772"
-        result = self.clf.is_transaction_fraudulent(self.transaction_dto)
+        result = self.clf.get_fraud_code(self.transaction_dto)
         self.assertTrue(result)
 
-    def test_legit_transaction_returns_negative(self):
+    def test_legit_transaction_returns_none(self):
         self.transaction_dto.commerce_account_iban = "10003"
         self.transaction_dto.client_credit_card = "99993"
         self.transaction_dto.transaction_amount = "772"
-        result = self.clf.is_transaction_fraudulent(self.transaction_dto)
-        self.assertFalse(result)
+        result = self.clf.get_fraud_code(self.transaction_dto)
+        self.assertIsNone(result)
 
     def test_malformed_transaction_raises_exception_when_predicted(self):
         self.transaction_dto.commerce_account_iban = "aaaaa"
@@ -112,7 +110,7 @@ class TestTransactionClassifier(unittest.TestCase):
         self.transaction_dto.transaction_amount = "úuuú"
         self.assertRaises(
             MalformedTransactionException,
-            self.clf.is_transaction_fraudulent,
+            self.clf.get_fraud_code,
             self.transaction_dto
         )
 

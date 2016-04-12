@@ -22,6 +22,8 @@ class TransactionDAO(Singleton):
         dict["commerce_country_name"] = TransactionDTO.commerce_country_name
         dict["commerce_account_iban"] = TransactionDTO.commerce_account_iban
         dict["transaction_datetime"] = TransactionDTO.transaction_datetime
+        dict["client_name"]=TransactionDTO.client_name
+        dict["client_last_name"]=TransactionDTO.client_last_name
         return dict
 
     def build_from_document(self, source_doc):
@@ -38,6 +40,8 @@ class TransactionDAO(Singleton):
             commerce_country_name = source_doc["commerce_country_name"]
             commerce_account_iban = source_doc["commerce_account_iban"]
             transaction_datetime = source_doc["transaction_datetime"]
+            client_name=source_doc["client_name"]
+            client_last_name=source_doc["client_last_name"]
 
             return TransactionDTO(
                 _id = _id,
@@ -51,7 +55,9 @@ class TransactionDAO(Singleton):
                 commerce_country = commerce_country,
                 commerce_country_name = commerce_country_name,
                 commerce_account_iban = commerce_account_iban,
-                transaction_datetime = transaction_datetime
+                transaction_datetime = transaction_datetime,
+                client_name=client_name,
+                client_last_name=client_last_name
             )
 
         except Exception, e:

@@ -40,7 +40,9 @@ class TestProcessingEndpointHandler(unittest.TestCase):
             "commerce_country": "ES",
             "commerce_country_name": "Spain",
             "commerce_account_iban": "ES7231011409805348991287",
-            "transaction_datetime": "2015-06-15T18:01:32.000+0000"
+            "transaction_datetime": "2015-06-15T18:01:32.000+0000",
+            "client_name":"foo",
+            "client_last_name":"bar"
         }
         self.transaction_dto = TransactionDAO().build_from_document(self.transaction_document)
 
