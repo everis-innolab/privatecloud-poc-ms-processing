@@ -14,8 +14,9 @@ class ProcessingEndpointHandler(BaseEndpointHandler):
 
     def __init__(self, eureka_agent, logger):
         super(ProcessingEndpointHandler, self).__init__(eureka_agent, logger)
-        self.__clf = \
-            TransactionClassifier(RANDOM_SLEEP_BOUNDS_MS, POSITIVE_REMAINDERS)
+        self.__clf = TransactionClassifier(
+            RANDOM_SLEEP_BOUNDS_MS, POSITIVE_REMAINDERS, logger
+        )
 
     def transactions_post(self):
         self._logger.info("Post Handler just started")
