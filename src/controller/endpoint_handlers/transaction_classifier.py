@@ -10,9 +10,10 @@ from src.controller.exceptions import InsufficientDataInTransactionException, \
 
 class TransactionClassifier():
 
-    def __init__(self, random_sleep_bounds_tuple, fraudulent_remainders):
+    def __init__(self, random_sleep_bounds_tuple, fraudulent_remainders, logger):
         self.__min_sleep, self.__max_sleep = random_sleep_bounds_tuple
         self.__fraudulent_remainders = fraudulent_remainders
+        self.__logger=logger
 
     def get_fraud_code(self, transaction_dto):
         """
@@ -43,8 +44,11 @@ class TransactionClassifier():
         )
         self.__sleep_random_amount_if_necessary(start_time)
         if is_positive:
+            self.__logger.info("Classified as Fraudulent transaction")
             return random.choice(FRAUDULENT_CODES)
+
         else:
+            self.__logger.info("Classified as Legit transaction")
             return LEGIT_CODE
 
     def __check_enough_data_to_classify_transaction(self, transaction_dto):
