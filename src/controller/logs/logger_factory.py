@@ -2,6 +2,8 @@ import logging
 import os
 from logging.handlers import RotatingFileHandler
 from logging import Formatter
+
+from src import constants
 from src.controller.singleton import Singleton
 
 
@@ -10,7 +12,7 @@ class LoggerFactory():
     logger = None
 
     @staticmethod
-    def get_logger(file_path, logging_level):
+    def get_logger(file_path=constants.LOG_FILE, logging_level=constants.DEFAULT_LOGGIN_LEVEL):
         logger = logging.getLogger(__name__)
         logger.setLevel(logging_level)
 
