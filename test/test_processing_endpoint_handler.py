@@ -3,9 +3,7 @@ import copy
 import json
 import logging
 import unittest
-
 from mock import patch, Mock
-
 from src.controller.endpoint_handlers.base_endpoint_handler import \
     BaseEndpointHandler
 from src.controller.endpoint_handlers.processing_endpoint_handler import \

@@ -18,7 +18,7 @@ class Main():
         eureka_client = EurekaClient(eureka_server_dto, my_app_instace_dto)
         self.__eureka_agent = EurekaAgent(eureka_client, logger)
 
-        #Pre cargamos la cache de url al inicio
+        #We force a pre-load if the output handler url in the cache
         self.__eureka_agent.get_output_handler_url()
         self.__my_app_instance_dto = my_app_instace_dto
 
@@ -36,7 +36,7 @@ class Main():
 
 if __name__ == "__main__":
 
-    # Lanzar con WorkingDirectory en ms-cloud\python\ProcessingNode
+    # Launch with WorkingDirectory in ms-cloud\python\ProcessingNode
     logger = LoggerFactory.get_logger(
         constants.LOG_FILE, constants.DEFAULT_LOGGIN_LEVEL
     )

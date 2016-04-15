@@ -24,6 +24,7 @@ class EurekaAgent():
         if self.__output_handler_url_cache is None or \
                 self.__is_cache_refreshing_necessary():
 
+            # TODO reactivate when the kubernetes DNS issue is resolved
             # self.__logger.info("Getting Output Handler URL")
             # self.__logger.info("Getting APP Instance dto List")
             # instance_dto_list = \
@@ -40,8 +41,7 @@ class EurekaAgent():
             #
             # self.__last_cache_refresh_time = datetime.datetime.now()
 
-            # TODO cuando se resuelva el tema del DNS de Kubernetes volver a la
-            # funcionalidad completa
+
             self.__output_handler_url_cache = "http://%s:80/transactions"%\
                 os.environ.get("MS_OUTPUT_SERVICE_SERVICE_HOST")
             self.__last_cache_refresh_time = datetime.datetime.now()
