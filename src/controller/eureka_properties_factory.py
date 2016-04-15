@@ -23,8 +23,8 @@ class EurekaPropertiesFactory(Singleton):
         )
 
     def __read_eureka_host_and_port_from_env(self):
-        # TO-DO. Para futuras versiones esto leera las variables globales
-        # para el primer despliegue usamos los valores "Hardcodeados"
+        # TODO. In future versions this will be obtained from the
+        # enviroment variables set by kubernetes.
 
         # host = os.environ.get(EUREKA_HOST_ENV)
         # port = int(os.environ.get(EUREKA_PORT_ENV))

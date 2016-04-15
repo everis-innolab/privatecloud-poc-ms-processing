@@ -1,7 +1,7 @@
 # -*- encoding: utf-8 -*-
 import logging
 import unittest
-from mock import patch, Mock, mock_open, MagicMock
+from mock import patch,MagicMock
 from src.controller.endpoint_handlers.base_endpoint_handler import \
     BaseEndpointHandler
 from src.controller.logs.logger_factory import LoggerFactory

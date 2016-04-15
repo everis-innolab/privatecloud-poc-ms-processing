@@ -17,22 +17,19 @@ class TransactionClassifier():
 
     def get_fraud_code(self, transaction_dto):
         """
-        Por agilizar el proceso se va a utilizar un cáculo inmediato y simple,
-        mas un delay aleatorio para simular el rendimiento en tiempo de un
-        algoritmo real.
+        In order to simplify the development a really simple operation is
+        going to be used. A random sleep time will be added to resemble the
+        performance of a real Classifier
 
-        Básicamente se toman los ultimos caracteres de los campos:
+        Those are the only fields taken into consideration:
 
             * commerce_account_iban
             * client_credit_card
             * transaction_amount
 
-        Después se pasan a un valor numérico, se suman, y se da como positivo
-        aquellos que den como resultado un valor acabado en X. Donde X sera
-        una lista de posibles valores. De esta forma podemos graduar la
-        cantidad de positivos.
-
-        Tras esto se aplica un delay de X
+        The las digit of this three fields are added and, if the last digits of
+        the result match the ones specified in the constants, the transaction
+        is classified as fraudulent.
 
         :param transaction_dto:
         :return:
