@@ -2,8 +2,6 @@
 import json
 import urllib2
 import bottle
-from src.constants import POSITIVE_REMAINDERS
-from src.constants import RANDOM_SLEEP_BOUNDS_MS
 from src.controller.endpoint_handlers.base_endpoint_handler import BaseEndpointHandler
 from src.controller.endpoint_handlers.transaction_classifier import TransactionClassifier
 from src.controller.exceptions import MalformedTransactionException
@@ -12,11 +10,10 @@ from src.model.transaction_dao import TransactionDAO
 
 class ProcessingEndpointHandler(BaseEndpointHandler):
 
-    def __init__(self, eureka_agent, logger):
+    def __init__(self, eureka_agent, logger, constants_dto):
+        self.__constants_dto = constants_dto
         super(ProcessingEndpointHandler, self).__init__(eureka_agent, logger)
-        self.__clf = TransactionClassifier(
-            RANDOM_SLEEP_BOUNDS_MS, POSITIVE_REMAINDERS, logger
-        )
+        self.__clf = TransactionClassifier(logger, constants_dto)
 
     def transactions_post(self):
         self._logger.info("Post Handler just started")
@@ -47,7 +44,7 @@ class ProcessingEndpointHandler(BaseEndpointHandler):
             self._logger.info("Sending Transaction to Output. Code: %s"%str(code))
             self.__post_to_output(body_data)
         except:
-            self._logger.error("Error Predicting Transaction")
+            self._logger.exception("Error Predicting Transaction")
 
     def insert_code_and_get_as_dumps(self, transaction_dict, fraud_code):
         try:

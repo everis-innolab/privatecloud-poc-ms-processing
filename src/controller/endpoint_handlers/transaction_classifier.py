@@ -2,18 +2,15 @@
 import random
 from datetime import datetime
 from time import sleep
-
-from src.constants import *
 from src.controller.exceptions import InsufficientDataInTransactionException, \
     MalformedTransactionException
 
 
 class TransactionClassifier():
 
-    def __init__(self, random_sleep_bounds_tuple, fraudulent_remainders, logger):
-        self.__min_sleep, self.__max_sleep = random_sleep_bounds_tuple
-        self.__fraudulent_remainders = fraudulent_remainders
+    def __init__(self,logger,constants_dto):
         self.__logger=logger
+        self.__constants_dto=constants_dto
 
     def get_fraud_code(self, transaction_dto):
         """
@@ -42,16 +39,16 @@ class TransactionClassifier():
         self.__sleep_random_amount_if_necessary(start_time)
         if is_positive:
             self.__logger.info("Classified as Fraudulent transaction")
-            return random.choice(FRAUDULENT_CODES)
+            return random.choice(self.__constants_dto.fraudulent_codes)
 
         else:
             self.__logger.info("Classified as Legit transaction")
-            return LEGIT_CODE
+            return self.__constants_dto.legit_code
 
     def __check_enough_data_to_classify_transaction(self, transaction_dto):
-        complete= (
-            transaction_dto.commerce_account_iban is not None and \
-            transaction_dto.client_credit_card is not None and \
+        complete = (
+            transaction_dto.commerce_account_iban is not None and
+            transaction_dto.client_credit_card is not None and
             transaction_dto.transaction_amount is not None
         )
         if complete is False:
@@ -65,14 +62,13 @@ class TransactionClassifier():
         except:
             raise MalformedTransactionException()
         total = operand1 + operand2 + operand3
-        remainder = total % DIVIDER
-        return remainder in self.__fraudulent_remainders
+        remainder = total % self.__constants_dto.divider
+        return remainder in self.__constants_dto.positive_remainders
 
     def __sleep_random_amount_if_necessary(self, start_time):
         millis_already_passed = self.millis_interval(start_time, datetime.now())
-
-        sleep_time = \
-            random.randint(self.__min_sleep, self.__max_sleep)/ float(1000)
+        min, max = self.__constants_dto.random_sleep_bounds_ms
+        sleep_time = random.randint(min, max)/ float(1000)
         sleep_time -= millis_already_passed
         # if sleep_time > 0 :
         #     sleep(sleep_time)
@@ -85,5 +81,3 @@ class TransactionClassifier():
         millis += diff.seconds * 1000
         millis += diff.microseconds / 1000
         return millis
-
-
