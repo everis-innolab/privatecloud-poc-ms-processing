@@ -62,9 +62,4 @@ class TransactionDAO(Singleton):
             )
 
         except Exception, e:
-            logger = LoggerFactory.get_logger()
-
-            logger.exception(
-                "Error parsing document into Transaction Object: %s"%str(source_doc)
-            )
             raise MalformedTransactionException()
