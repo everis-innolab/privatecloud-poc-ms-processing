@@ -42,7 +42,7 @@ class ConstantsFactory():
 
     @staticmethod
     def __get_development_constants():
-                return ConstantsDTO(
+        return ConstantsDTO(
             transaction_endpoint ="/transactions",
             log_endpoint ="/logs",
             health_endpoint ="/health",

@@ -1,16 +1,14 @@
 import sys
 import os
-
-from src.controller.constants.constants_factory import ConstantsFactory
-
 sys.path.append(os.getcwd())
+from controller.constants.constants_factory import ConstantsFactory
 from controller.logs.logger_factory import LoggerFactory
 from eurekalab.client import EurekaClient
 from controller.endpoint_handlers.processing_endpoint_handler import \
     ProcessingEndpointHandler
 from controller.eureka_agent import EurekaAgent
 from controller.service_runner import ServiceRunner
-from src.controller.eureka_properties_factory import EurekaPropertiesFactory
+from controller.eureka_properties_factory import EurekaPropertiesFactory
 
 
 class Main():
