@@ -23,28 +23,28 @@ class EurekaAgent():
         if self.__output_handler_url_cache is None or \
                 self.__is_cache_refreshing_necessary():
 
-            # TODO reactivate when the kubernetes DNS issue is resolved
-            self.__logger.info("Getting Output Handler URL")
-            self.__logger.info("Getting APP Instance dto List")
-            instance_dto_list = self.ec_client.get_all_instaces_of_app(
-                self.__constants_dto.output_handler_app_name
-            )
-
-            self.__logger.info("Chosing Instance dto List")
-            if instance_dto_list is None or len(instance_dto_list)<1:
-                self.__output_handler_url_cache = None
-
-            instance_dto = random.choice(instance_dto_list)
-            self.__logger.info("Building URL from APP Instance dto List")
-            self.__output_handler_url_cache = \
-                self.__get_url_from_app_instance_dto(instance_dto)
-
-            self.__last_cache_refresh_time = datetime.datetime.now()
-
-
-            # self.__output_handler_url_cache = "http://%s:80/transactions"%\
-            #     os.environ.get("MS_OUTPUT_SERVICE_SERVICE_HOST")
+            # # TODO reactivate when the kubernetes DNS issue is resolved
+            # self.__logger.info("Getting Output Handler URL")
+            # self.__logger.info("Getting APP Instance dto List")
+            # instance_dto_list = self.ec_client.get_all_instaces_of_app(
+            #     self.__constants_dto.output_handler_app_name
+            # )
+            #
+            # self.__logger.info("Chosing Instance dto List")
+            # if instance_dto_list is None or len(instance_dto_list)<1:
+            #     self.__output_handler_url_cache = None
+            #
+            # instance_dto = random.choice(instance_dto_list)
+            # self.__logger.info("Building URL from APP Instance dto List")
+            # self.__output_handler_url_cache = \
+            #     self.__get_url_from_app_instance_dto(instance_dto)
+            #
             # self.__last_cache_refresh_time = datetime.datetime.now()
+
+
+            self.__output_handler_url_cache = "http://%s:80/transactions"%\
+                os.environ.get("MS_OUTPUT_SERVICE_SERVICE_HOST")
+            self.__last_cache_refresh_time = datetime.datetime.now()
 
         return self.__output_handler_url_cache
 
