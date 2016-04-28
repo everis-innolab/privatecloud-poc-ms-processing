@@ -37,7 +37,7 @@ class ConstantsFactory():
             output_handler_app_name ="OutputHandler",
             output_handler_endpoint ="/transactions",
             processing_host = os.environ.get("MS_PROCESSING_SERVICE_SERVICE_HOST"),
-            processing_port = int(os.environ.get("MS_PROCESSING_SERVICE_SERVICE_PORT")),
+            processing_port = int(os.environ.get("MS_PROCESSING_SERVICE_SERVICE_PORT"))
         )
 
     @staticmethod
